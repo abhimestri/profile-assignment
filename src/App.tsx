@@ -9,7 +9,7 @@ import Main from "./Main/Main";
 const App = () => {
   setTimeout(() => {
     localStorage.removeItem("uid");
-  }, 11000);
+  }, 3600000);
 
   const router = createBrowserRouter([
     {

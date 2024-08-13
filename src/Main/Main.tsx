@@ -10,8 +10,6 @@ function Main() {
   useEffect(() => {
     if (!uid) {
       navigate("/login");
-    } else {
-      navigate("/");
     }
   }, [uid, navigate]);
 

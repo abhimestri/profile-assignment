@@ -22,6 +22,7 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    notify({ text: "Checking credentials please wait!" });
     try {
       const response = await signInWithEmailAndPassword(
         auth,
@@ -32,7 +33,6 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
       notify({ text: "User logged in", type: "success" });
       navigate("/");
     } catch (err: any) {
-      console.log({ err });
       if (
         err["code"] === "auth/invalid-email" ||
         err["code"] === "auth/invalid-credential"
@@ -46,7 +46,7 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
 
   return (
     <div className="flex h-[100vh] justify-center items-center">
-      <div className="w-[30%] h-[60%] bg-[#f2f2f2] p-10 rounded-[14px]">
+      <div className="w-[300px] h-[60%] bg-[#f2f2f2] p-10 rounded-[14px] md:w-[30vw]">
         <p className="flex justify-center text-[18px] font-medium">Login</p>
         <div className="w-[100%] flex flex-col mt-6">
           <form onSubmit={handleSubmit(handleLogin)}>
@@ -57,7 +57,6 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
                   control={control}
                   rules={input?.rules}
                   render={({ field, fieldState: { error } }) => {
-                    console.log({ error });
                     return (
                       <div className="mb-4 !w-[100%]">
                         <input

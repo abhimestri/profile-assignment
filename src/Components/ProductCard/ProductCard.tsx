@@ -24,12 +24,14 @@ const ProductCard = ({
         <img
           src={image}
           alt=""
-          className="m-auto w-[70%] h-[70%] aspect-square"
+          className="m-auto w-[70%] h-[70%] aspect-square "
         />
-        <p className="text-[22px] font-medium line-clamp-1">{name}</p>
-        <p className="line-clamp-2">{description}</p>
+        <p className="text-[18px] font-medium line-clamp-1 md:text-[22px]">
+          {name}
+        </p>
+        <p className="line-clamp-2 text-[14px] md:text-[16px]">{description}</p>
       </div>
-      <div className="flex justify-between gap-y-10 mt-10 w-full">
+      <div className="flex justify-between gap-y-10 mt-10 w-[80%] md:w-full">
         <p className="my-2 font-medium text-[18px] p-0">Price: ${price}</p>
         <Button disabled={alreadyInCart} onClick={onAddToCart}>
           {alreadyInCart ? "Already in cart" : "Add to cart"}

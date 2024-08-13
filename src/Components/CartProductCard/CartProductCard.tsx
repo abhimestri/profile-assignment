@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import { ProductProps } from "../../ProductsListPage/ProductListPage";
 import notify from "../Notify/Notify";

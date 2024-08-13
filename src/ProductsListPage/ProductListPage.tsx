@@ -5,6 +5,7 @@ import { db } from "../utils/auth";
 import notify from "../Components/Notify/Notify";
 import { useNavigate } from "react-router-dom";
 import { getProducts } from "../Api";
+import { Loaders } from "./utils";
 
 export interface ProductProps {
   name: string;
@@ -18,6 +19,7 @@ export interface ProductProps {
 const ProductListPage = () => {
   const [productList, setProductList] = useState<Array<ProductProps>>([]);
   const [productsinCart, setProductsInCart] = useState<Array<string>>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const uid: any = localStorage?.getItem("uid");
   const docRef = doc(db, "Users", uid);
@@ -25,8 +27,10 @@ const ProductListPage = () => {
 
   useEffect(() => {
     if (!productList?.length && uid) {
+      setLoading(true);
       getProducts()?.then((response: any) => {
         setProductList([...response]);
+        setLoading(false);
       });
     } else if (!uid) {
       navigate("/login");
@@ -57,23 +61,21 @@ const ProductListPage = () => {
 
   useEffect(() => {
     const fetchCartProducts = async () => {
-      if (!productsinCart?.length) {
-        try {
-          const data = await getDoc(docRef);
-          const idList = data
-            ?.data()
-            ?.products?.map((product: any) => product?.id);
-          setProductsInCart([...idList]);
-        } catch (error) {}
-      }
+      try {
+        const data = await getDoc(docRef);
+        const idList = data
+          ?.data()
+          ?.products?.map((product: any) => product?.id);
+        setProductsInCart([...idList]);
+      } catch (error) {}
     };
     fetchCartProducts();
-  }, [docRef]);
+  }, [docRef, productsinCart]);
 
-  console.log({ productsinCart });
-
-  return (
-    <div className="grid grid-cols-12 gap-6 gap-x-8 p-10">
+  return loading ? (
+    Loaders()
+  ) : (
+    <div className="grid grid-cols-12 gap-6 gap-x-8 px-2 py-4 sm:p-10">
       {productList?.map((product: ProductProps) => {
         const alreadyInCart =
           productsinCart?.filter((id: any) => id === product?.id)?.length >= 1;

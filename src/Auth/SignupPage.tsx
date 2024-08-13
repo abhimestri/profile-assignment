@@ -23,6 +23,7 @@ const SignupPage = ({ handleAuthForm }: SignupPageProps) => {
   const navigate = useNavigate();
 
   const handleSignup = async () => {
+    notify({ text: "Checking credentials please wait!" });
     try {
       const response = await createUserWithEmailAndPassword(
         auth,
@@ -44,7 +45,7 @@ const SignupPage = ({ handleAuthForm }: SignupPageProps) => {
 
   return (
     <div className="flex h-[100vh] justify-center items-center">
-      <div className="w-[30%] h-[64%] bg-[#f2f2f2] p-10 rounded-[14px]">
+      <div className="w-[320px] h-[64%] bg-[#f2f2f2] p-10 rounded-[14px] md:w-[30vw]">
         <p className="flex justify-center text-[18px] font-medium">Register</p>
         <div className="w-[100%] flex flex-col mt-6">
           <form onSubmit={handleSubmit(handleSignup)}>

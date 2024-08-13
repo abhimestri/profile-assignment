@@ -6,7 +6,7 @@ const Navbar = () => {
   const location = useLocation();
 
   return (
-    <div className="bg-[#d3d3d3] h-[8vh] w-full flex justify-between items-center p-8">
+    <div className="bg-[#d3d3d3] h-[8vh] !w-[100vw] flex justify-between items-center p-8">
       <p className="text-[20px] font-medium">
         {location?.pathname === "/cart-page" ? "Your Cart" : "Products"}
       </p>
@@ -19,7 +19,16 @@ const Navbar = () => {
               : navigate("/cart-page")
           }
         >
-          {location?.pathname === "/cart-page" ? "Go to Products" : "View Cart"}
+          {location?.pathname === "/cart-page" ? (
+            "Go to Products"
+          ) : (
+            <div className="flex gap-x-2 items-center">
+              <p>View Cart</p>
+              <div className="border-darkgrey border-[1px] px-[8px] py-[2px] !rounded-[50%] text-[14px]">
+                4
+              </div>
+            </div>
+          )}
         </Button>
         <Button
           onClick={() => {
