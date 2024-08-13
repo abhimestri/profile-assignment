@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import ProductListPage from "./ProductsListPage/ProductListPage";
+import Auth from "./Auth";
+import { Toaster } from "react-hot-toast";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import CartPage from "./CartPage/CartPage";
+import Main from "./Main/Main";
 
-function App() {
+const App = () => {
+  setTimeout(() => {
+    localStorage.removeItem("uid");
+  }, 11000);
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Main />,
+      children: [
+        { path: "/", element: <ProductListPage /> },
+        { path: "/cart-page", element: <CartPage /> },
+      ],
+    },
+    { path: "/login", element: <Auth /> },
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <RouterProvider router={router} />
+      <Toaster />
     </div>
   );
-}
+};
 
 export default App;
