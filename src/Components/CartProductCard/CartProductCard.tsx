@@ -63,23 +63,41 @@ const CartProductCard = ({
             </Button>
             <input
               onChange={(e) => {
-                setQty(Number(e?.target?.value));
+                // setQty(Number(e?.target?.value));
+                setQty(+e?.target?.value);
+                const newQty = +e?.target?.value;
+                setTimeout(() => {
+                  if (newQty >= 1 && newQty <= 100) {
+                    handleUpdateQty({
+                      ...product,
+                      qty: newQty,
+                    });
+                  } else {
+                    notify({
+                      text:
+                        newQty > 100
+                          ? "Quantity can't be more than 100"
+                          : "Quantity cant be 0!",
+                      type: "error",
+                    });
+                  }
+                }, 1500);
               }}
               onBlur={() => {
-                if (qty >= 1 && qty <= 100) {
-                  handleUpdateQty({
-                    ...product,
-                    qty: qty,
-                  });
-                } else {
-                  notify({
-                    text:
-                      qty > 100
-                        ? "Quantity can't be more than 100"
-                        : "Quantity cant be 0!",
-                    type: "error",
-                  });
-                }
+                // if (qty >= 1 && qty <= 100 && +qty !== Number(product?.qty)) {
+                //   handleUpdateQty({
+                //     ...product,
+                //     qty: qty,
+                //   });
+                // } else {
+                //   notify({
+                //     text:
+                //       qty > 100
+                //         ? "Quantity can't be more than 100"
+                //         : "Quantity cant be 0!",
+                //     type: "error",
+                //   });
+                // }
               }}
               value={qty}
               className={`px-4 w-[60px] text-center py-1 light-border !rounded-[4px] ${
