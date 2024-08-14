@@ -16,6 +16,7 @@ import { calculateDiscountedValue, calculateTotalPrice } from "../utils/utils";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { getErrorMessage } from "../Auth/utils";
+import PriceDetails from "./PriceDetails";
 
 const CartPage = () => {
   const [productsList, setProductsList] = useState<Array<ProductProps>>([]);
@@ -63,13 +64,6 @@ const CartPage = () => {
     }
   }, [docRef, productsList]);
 
-  const getTotalPrice: any = () => {
-    return productsList?.reduce(
-      (acc, red) => acc + Number(red?.price) * Number(red?.qty),
-      0
-    );
-  };
-
   const handleUpdateQty = async (updatedProduct: ProductProps) => {
     notify({ text: "Updating quantity..." });
     try {
@@ -102,7 +96,6 @@ const CartPage = () => {
           text: "Your order has been placed, Thank you!",
           type: "success",
         });
-        navigate("/");
         setProductsList([]);
       } catch (error: any) {
         notify({ text: getErrorMessage(error["code"]), type: "error" });
@@ -153,78 +146,13 @@ const CartPage = () => {
             <Skeleton count={1} style={{ height: "240px", width: "30vw" }} />
           </div>
         ) : (
-          <div className="light-border sticky top-4 p-6 h-[40%] w-full md:w-[30vw] !top-[70px]">
-            <p className="py-2 font-medium">Price Details</p>
-            <hr className="w-[100%] h-[2px] bg-[ccc]" />
-            <div className="py-3 flex justify-between">
-              <p>Price ({productsList?.length} items)</p>
-              <p>${Number(getTotalPrice())?.toFixed(2)}</p>
-            </div>
-            {getTotalPrice() > 0 && (
-              <div className="py-3 flex justify-between">
-                <div className="w-[60%] ">
-                  <p>Discount</p>
-                  <p className="text-[12px] text-darkgrey leading-3">
-                    Discount can be availed only on orders above 200$
-                  </p>
-                </div>
-                <div className="text-green">
-                  -
-                  <select
-                    disabled={getTotalPrice() < 200}
-                    name="Discount"
-                    onChange={(e) => {
-                      if (e?.target?.value[0] === "d") {
-                        setCurrentDiscount({ type: "percentage", value: 10 });
-                      } else {
-                        setCurrentDiscount({ type: "flat", value: 200 });
-                      }
-                    }}
-                    value={currentDiscount?.type === "flat" ? "f200" : "d10"}
-                    className={`w-fit px-2 cursor-pointer text-green ${
-                      getTotalPrice() <= 200 ? "!cursor-not-allowed" : ""
-                    }`}
-                  >
-                    <option value="d10">10%</option>
-                    <option value="f200">$200</option>
-                  </select>
-                </div>
-              </div>
-            )}
-            <hr className="w-[100%] h-[2px] bg-[ccc]" />
-            <div className="py-2 flex justify-between">
-              <p>Total amount</p>
-              <p>
-                $
-                {getTotalPrice() < 200
-                  ? Number(getTotalPrice())?.toFixed(2)
-                  : Number(
-                      calculateTotalPrice(getTotalPrice(), currentDiscount)
-                    )?.toFixed(2)}
-              </p>
-            </div>
-            {getTotalPrice() > 200 ? (
-              <>
-                <hr className="w-[100%] h-[2px] bg-[ccc]" />
-                <div className="py-2 text-green font-semibold mt-8">
-                  <p>
-                    You will save $
-                    {Number(
-                      calculateDiscountedValue(getTotalPrice(), currentDiscount)
-                    )?.toFixed(2)}{" "}
-                    on this order
-                  </p>
-                </div>{" "}
-              </>
-            ) : (
-              ""
-            )}
-            <div className="flex justify-end mt-4">
-              <Button disabled={disabled} onClick={handleCheckout}>
-                Checkout
-              </Button>
-            </div>
-          </div>
+          <PriceDetails
+            handleCheckout={handleCheckout}
+            productsList={productsList}
+            disabled={disabled}
+            setCurrentDiscount={setCurrentDiscount}
+            currentDiscount={currentDiscount}
+          />
         )}
       </div>
     </div>

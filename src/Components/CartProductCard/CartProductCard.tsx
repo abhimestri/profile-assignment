@@ -79,7 +79,6 @@ const CartProductCard = ({
                         : "Quantity cant be 0!",
                     type: "error",
                   });
-                  //   setQty(Number(product?.qty));
                 }
               }}
               value={qty}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, FieldError, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { getErrorMessage, LoginInputFields } from "./utils";
 import { inputprops } from "../Components/Textfield/Textfield";
 import Button from "../Components/Button/Button";
@@ -60,7 +60,6 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
                           }`}
                           {...field}
                           placeholder={input?.placeholder}
-                          // onFocus={() => clearErrors()}
                         />
                         <p className="p-1 text-red text-[12px] leading-3">
                           {error?.message}

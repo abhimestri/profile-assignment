@@ -1,5 +1,5 @@
 import React from "react";
-import { Controller, FieldError } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 export interface inputprops {
   name?: any;

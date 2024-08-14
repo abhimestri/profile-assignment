@@ -59,7 +59,6 @@ const ProductListPage = () => {
       }
       notify({ text: "Product added to cart!", type: "success" });
     } catch (error) {
-      console.log({ error });
       notify({ text: "something went wrong!", type: "error" });
     }
   };
