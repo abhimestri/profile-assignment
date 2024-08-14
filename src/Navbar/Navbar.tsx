@@ -1,12 +1,16 @@
+import { useContext } from "react";
 import Button from "../Components/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
+import { CartContext } from "../store/CartContet";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { totalItemsInCart } = useContext(CartContext);
+
   return (
-    <div className="bg-[#d3d3d3] h-[10vh] !w-[100vw] flex justify-between items-center px-2 !py-6 md:p-8 h-[8vh]">
+    <div className="sticky top-0 bg-[#d3d3d3] h-[10vh] !w-[100vw] flex justify-between items-center px-2 !py-6 md:p-8 h-[8vh]">
       <p className="text-[20px] font-medium">
         {location?.pathname === "/cart-page" ? "Your Cart" : "Products"}
       </p>
@@ -18,16 +22,20 @@ const Navbar = () => {
               ? navigate("/")
               : navigate("/cart-page")
           }
-          className="!px-2 text-[12px] md:text-[14px]"
+          className="!px-2 text-[12px] md:!text-[14px]"
         >
           {location?.pathname === "/cart-page" ? (
             "Go to Products"
           ) : (
             <div className="flex gap-x-1 items-center">
               <p>View Cart</p>
-              <div className="border-darkgrey border-[1px] px-[6px] py-[1px] text-[12px] !rounded-[50%] md:px-[8px] py-[2px] text-[14px]">
-                4
-              </div>
+              {totalItemsInCart > 0 ? (
+                <div className="border-darkgrey border-[1px] w-[24px] h-[24px] text-[14px] !rounded-[50%]">
+                  <p className="text-center p-0">{totalItemsInCart}</p>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           )}
         </Button>
@@ -36,7 +44,7 @@ const Navbar = () => {
             localStorage?.removeItem("uid");
             navigate("/login");
           }}
-          className="text-[12px] md:text-[14px]"
+          className="text-[12px] md:!text-[16px]"
         >
           Logout
         </Button>

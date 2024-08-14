@@ -61,3 +61,16 @@ export const SignupInputFields: Array<inputprops> = [
     value: "password",
   },
 ];
+
+export const getErrorMessage = (errorType?: string) => {
+  switch (errorType) {
+    case "auth/email-already-in-use":
+      return "This email is already in use!";
+    case "auth/invalid-email":
+      return "Invalid email Id";
+    case "auth/invalid-credential":
+      return "Email or password is incorrect";
+    default:
+      return "Something went wrong!";
+  }
+};

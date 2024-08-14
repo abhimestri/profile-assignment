@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ProductCard from "../Components/ProductCard/ProductCard";
 import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
 import { db } from "../utils/auth";
@@ -6,6 +6,7 @@ import notify from "../Components/Notify/Notify";
 import { useNavigate } from "react-router-dom";
 import { getProducts } from "../Api";
 import { Loaders } from "./utils";
+import { CartContext } from "../store/CartContet";
 
 export interface ProductProps {
   name: string;
@@ -24,6 +25,8 @@ const ProductListPage = () => {
   const uid: any = localStorage?.getItem("uid");
   const docRef = doc(db, "Users", uid);
   const navigate = useNavigate();
+
+  const { setTotalItemsInCart } = useContext(CartContext);
 
   useEffect(() => {
     if (!productList?.length && uid) {
@@ -70,7 +73,8 @@ const ProductListPage = () => {
       } catch (error) {}
     };
     fetchCartProducts();
-  }, [docRef, productsinCart]);
+    setTotalItemsInCart(productsinCart?.length);
+  }, [docRef, productsinCart, setTotalItemsInCart]);
 
   return loading ? (
     Loaders()

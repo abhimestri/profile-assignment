@@ -1,6 +1,6 @@
 import React from "react";
 import { Controller, FieldError, useForm } from "react-hook-form";
-import { LoginInputFields } from "./utils";
+import { getErrorMessage, LoginInputFields } from "./utils";
 import { inputprops } from "../Components/Textfield/Textfield";
 import Button from "../Components/Button/Button";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -33,14 +33,7 @@ const LoginPage = ({ handleAuthForm }: LoginPageProps) => {
       notify({ text: "User logged in", type: "success" });
       navigate("/");
     } catch (err: any) {
-      if (
-        err["code"] === "auth/invalid-email" ||
-        err["code"] === "auth/invalid-credential"
-      ) {
-        notify({ text: "Invalid credentials", type: "error" });
-      } else {
-        notify({ text: "Something went wrong!", type: "error" });
-      }
+      notify({ text: getErrorMessage(err["code"]), type: "error" });
     }
   };
 

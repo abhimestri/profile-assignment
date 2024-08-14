@@ -2,7 +2,7 @@ import React from "react";
 import { inputprops } from "../Components/Textfield/Textfield";
 import { Controller, useForm } from "react-hook-form";
 import Button from "../Components/Button/Button";
-import { SignupInputFields } from "./utils";
+import { getErrorMessage, SignupInputFields } from "./utils";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../utils/auth";
 import notify from "../Components/Notify/Notify";
@@ -38,8 +38,8 @@ const SignupPage = ({ handleAuthForm }: SignupPageProps) => {
         });
         navigate("/");
       }
-    } catch (error) {
-      notify({ text: "User registeration unsuccessful", type: "error" });
+    } catch (error: any) {
+      notify({ text: getErrorMessage(error["code"]), type: "error" });
     }
   };
 
@@ -47,7 +47,7 @@ const SignupPage = ({ handleAuthForm }: SignupPageProps) => {
     <div className="flex h-[100vh] justify-center items-center">
       <div className="w-[320px] h-[64%] bg-[#f2f2f2] p-10 rounded-[14px] md:w-[30vw]">
         <p className="flex justify-center text-[18px] font-medium">Register</p>
-        <div className="w-[100%] flex flex-col mt-6">
+        <div className="w-[100%] flex flex-col mt-3">
           <form onSubmit={handleSubmit(handleSignup)}>
             {SignupInputFields?.map((input: inputprops) => {
               return (
@@ -58,7 +58,11 @@ const SignupPage = ({ handleAuthForm }: SignupPageProps) => {
                     return (
                       <>
                         <input
-                          className="w-full border-solid border-[1px] border-lightgrey rounded-[6px] px-3 py-2 mt-4"
+                          className={`w-full !rounded-[6px] px-3 py-2 mt-4 ${
+                            error?.message
+                              ? "border-solid border-red border border-[1px]"
+                              : "light-border"
+                          }`}
                           {...field}
                           placeholder={input?.placeholder}
                         />

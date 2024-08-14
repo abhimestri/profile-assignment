@@ -126,35 +126,37 @@ const CartPage = () => {
             <p>Price ({productsList?.length} items)</p>
             <p>${Number(getTotalPrice())?.toFixed(2)}</p>
           </div>
-          <div className="py-3 flex justify-between">
-            <div className="w-[60%] ">
-              <p>Discount</p>
-              <p className="text-[12px] text-darkgrey leading-3">
-                Discount can be availed only on orders above 200$
-              </p>
+          {getTotalPrice() > 0 && (
+            <div className="py-3 flex justify-between">
+              <div className="w-[60%] ">
+                <p>Discount</p>
+                <p className="text-[12px] text-darkgrey leading-3">
+                  Discount can be availed only on orders above 200$
+                </p>
+              </div>
+              <div className="text-green">
+                -
+                <select
+                  disabled={getTotalPrice() < 200}
+                  name="Discount"
+                  onChange={(e) => {
+                    if (e?.target?.value[0] === "d") {
+                      setCurrentDiscount({ type: "percentage", value: 10 });
+                    } else {
+                      setCurrentDiscount({ type: "flat", value: 200 });
+                    }
+                  }}
+                  value={currentDiscount?.type === "flat" ? "f200" : "d10"}
+                  className={`w-fit px-2 cursor-pointer text-green ${
+                    getTotalPrice() <= 200 ? "!cursor-not-allowed" : ""
+                  }`}
+                >
+                  <option value="d10">10%</option>
+                  <option value="f200">$200</option>
+                </select>
+              </div>
             </div>
-            <div className="text-green">
-              -
-              <select
-                disabled={getTotalPrice() < 200}
-                name="Discount"
-                onChange={(e) => {
-                  if (e?.target?.value[0] === "d") {
-                    setCurrentDiscount({ type: "percentage", value: 10 });
-                  } else {
-                    setCurrentDiscount({ type: "flat", value: 200 });
-                  }
-                }}
-                value={currentDiscount?.type === "flat" ? "f200" : "d10"}
-                className={`w-fit px-2 cursor-pointer text-green ${
-                  getTotalPrice() <= 200 ? "!cursor-not-allowed" : ""
-                }`}
-              >
-                <option value="d10">10%</option>
-                <option value="f200">$200</option>
-              </select>
-            </div>
-          </div>
+          )}
           <hr className="w-[100%] h-[2px] bg-[ccc]" />
           <div className="py-2 flex justify-between">
             <p>Total amount</p>
