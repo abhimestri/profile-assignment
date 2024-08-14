@@ -53,12 +53,14 @@ const CartPage = () => {
         }
         setLoading(false);
       } catch (error) {
-        console.log({ error });
         notify({ text: "Something went wrong", type: "error" });
         setLoading(false);
       }
     };
     fetchProducts();
+    if (productsList?.length <= 0) {
+      setDisabled(true);
+    }
   }, [docRef, productsList]);
 
   const getTotalPrice: any = () => {
