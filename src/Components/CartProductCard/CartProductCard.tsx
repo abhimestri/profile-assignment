@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "../Button/Button";
 import { ProductProps } from "../../ProductsListPage/ProductListPage";
 import notify from "../Notify/Notify";
@@ -35,7 +35,7 @@ const CartProductCard = ({
         <p className="font-medium mt-1 text-[18px] md:text-[1.2vw]">
           Price : ${product?.price}
         </p>
-        <div className="mt-2 flex items-center gap-x-4 mt-8">
+        <div className="mt-2 md:flex items-center gap-x-4 mt-8">
           <div className="flex gap-x-2 items-center">
             <Button
               variant="secondary"
@@ -93,7 +93,7 @@ const CartProductCard = ({
           </div>
           <Button
             variant="secondary"
-            className="px-[8px] py-[4px] text-[14px] rounded-[4px]"
+            className="px-[8px] py-[4px] text-[14px] rounded-[4px] mt-4 md:mt-0"
             onClick={() => handleRemoveProduct(product)}
           >
             remove item
