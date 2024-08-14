@@ -10,7 +10,7 @@ const Navbar = () => {
   const { totalItemsInCart } = useContext(CartContext);
 
   return (
-    <div className="sticky top-0 bg-[#d3d3d3] h-[10vh] !w-[100vw] flex justify-between items-center px-2 !py-6 md:p-8 h-[8vh]">
+    <div className="z-100 sticky top-0 bg-[#d3d3d3] h-[10vh] !w-[100vw] flex justify-between items-center px-2 !py-6 md:p-8 h-[8vh]">
       <p className="text-[20px] font-medium">
         {location?.pathname === "/cart-page" ? "Your Cart" : "Products"}
       </p>

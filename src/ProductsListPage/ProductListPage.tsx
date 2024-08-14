@@ -53,11 +53,13 @@ const ProductListPage = () => {
           products: arrayUnion(product),
         });
       }
-      setProductsInCart([
-        ...data?.data()?.products?.map((product: any) => product?.id),
-      ]);
+      if (data?.exists()) {
+        const cartItems = data?.data()?.products ?? [];
+        setProductsInCart([...cartItems?.map((product: any) => product?.id)]);
+      }
       notify({ text: "Product added to cart!", type: "success" });
     } catch (error) {
+      console.log({ error });
       notify({ text: "something went wrong!", type: "error" });
     }
   };

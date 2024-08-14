@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import { ProductProps } from "../../ProductsListPage/ProductListPage";
 import notify from "../Notify/Notify";
@@ -7,14 +7,24 @@ interface CartProductCardProps {
   product: ProductProps;
   handleRemoveProduct: (data?: any) => void;
   handleUpdateQty: (data?: any) => void;
+  setDisabled: (data?: any) => void;
 }
 
 const CartProductCard = ({
   product,
   handleRemoveProduct,
   handleUpdateQty,
+  setDisabled,
 }: CartProductCardProps) => {
   const [qty, setQty] = useState<number>(Number(product?.qty));
+
+  useEffect(() => {
+    if (qty <= 0 || qty > 100) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [qty, setDisabled]);
 
   return (
     <div className="w-full dark-border p-6 flex gap-x-4">
@@ -69,6 +79,7 @@ const CartProductCard = ({
                         : "Quantity cant be 0!",
                     type: "error",
                   });
+                  //   setQty(Number(product?.qty));
                 }
               }}
               value={qty}
